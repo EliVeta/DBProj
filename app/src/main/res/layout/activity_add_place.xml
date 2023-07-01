@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/buttonCancel"
+        android:layout_width="111dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="Отмена"
+        android:onClick="ClickCancel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="267dp"
+        android:layout_height="241dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="1dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonCancel">
+
+        <EditText
+            android:id="@+id/editTextStreet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Введите улицу"
+            android:inputType="text"
+            android:minHeight="48dp" />
+
+        <EditText
+            android:id="@+id/editTextNumberHouse"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Введите номер дома"
+            android:inputType="text"
+            android:minHeight="48dp" />
+
+        <EditText
+            android:id="@+id/editTextLon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Введите широту"
+            android:inputType="text"
+            android:minHeight="48dp" />
+
+        <EditText
+            android:id="@+id/editTextTLat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Введите долготу"
+            android:inputType="text"
+            android:minHeight="48dp" />
+
+        <EditText
+            android:id="@+id/editTextNamePlace"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Введите название места"
+            android:inputType="text"
+            android:minHeight="48dp" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/buttonSavePlace"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
+        android:text="Сохранить"
+        android:onClick="ClickSavePlace"
+        app:layout_constraintEnd_toStartOf="@+id/buttonCancel"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewPlace"
+        android:layout_width="wrap_content"
+        android:layout_height="193dp"
+        android:layout_marginTop="16dp"
+        android:text="Места:"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -27,6 +27,11 @@
             android:label="AddPlace">
         </activity>
 
+        <activity
+            android:name=".MapActivity"
+            android:label="Map">
+        </activity>
+
     </application>
 
 </manifest>

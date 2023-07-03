@@ -26,6 +26,21 @@ public final class TPlace {
                     Place.COLUMN_NAME_LATITUDE + " DOUBLE," +
                     Place.COLUMN_NAME_NAMEPLACE + " TEXT NOT NULL" +
                     ")";
+
+    /*public  static final String SQL_INSERT_ENTRIES_IN_TPLACE =
+            "INSERT INTO " + Place.TABLE_NAME + " ("+
+                    Place.COLUMN_NAME_STREET + ", " +
+                    Place.COLUMN_NAME_NUMBERHOUSE + ", " +
+                    Place.COLUMN_NAME_LONGITUDE + ", " +
+                    Place.COLUMN_NAME_LATITUDE + ", " +
+                    Place.COLUMN_NAME_NAMEPLACE + ") " +
+                    "VALUES " + "(\"Взлетная\", \"7а\", 56.032487, 92.913987, \"Офис АБС\"), " +
+                    "(\"Весны\", \"1\", 56.034233, 92.907810, \"Взлетка Plaza\"), " +
+                    "(\"Партизана Железняка\", \"42\", 56.036729, 92.926350, \"Кристалл Арена\"), " +
+                    "(\"Академика Киренского\", \"26к1\", 55.994310, 92.797575, \"Институт космических и информационных технологий\"), " +
+                    "(\"Взлетная\", \"26к1\", 56.032487, 92.913987, \"Офис АБС\");"
+
+            ;*/
 }
 
 

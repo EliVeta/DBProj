@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 public class AddPlaceActivity extends Activity {
     //Button btnSave;
-    EditText etStreet, etNumberHouse, etLon, etLat, etNamePlace;
+    EditText etStreet, etNumberHouse, etLat, etLon, etNamePlace;
     TextView tview;
     DBHelper dbHelper;
     DBManager dbManager;
@@ -25,8 +25,8 @@ public class AddPlaceActivity extends Activity {
         //btnSave = (Button) findViewById(R.id.buttonSavePlace);
         etStreet = (EditText) findViewById(R.id.editTextStreet);
         etNumberHouse = (EditText) findViewById(R.id.editTextNumberHouse);
+        etLat = (EditText) findViewById(R.id.editTextLat);
         etLon = (EditText) findViewById(R.id.editTextLon);
-        etLat = (EditText) findViewById(R.id.editTextTLat);
         etNamePlace = (EditText) findViewById(R.id.editTextNamePlace);
         tview =(TextView) findViewById(R.id.textViewPlace);
 
@@ -52,8 +52,8 @@ public class AddPlaceActivity extends Activity {
     public void ClickSavePlace(View view) {
         String street = etStreet.getText().toString();
         String numberHouse = etNumberHouse.getText().toString();
-        Double lon = Double.parseDouble(etLon.getText().toString());
         Double lat = Double.parseDouble(etLat.getText().toString());
+        Double lon = Double.parseDouble(etLon.getText().toString());
         String namePlace = etNamePlace.getText().toString();
 
         dbManager.insertToDB(street,numberHouse,lon,lat,namePlace);

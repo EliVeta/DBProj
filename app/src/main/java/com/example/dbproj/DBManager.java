@@ -47,7 +47,7 @@ public class DBManager {
         cursor.close();
         return tempListPlace;
     }
-    public List<ArrayList<Double>> getFromDBNameLatLon(){
+    public List<ArrayList<Double>> getFromDBLatLon(){
         /*List<Double> tempListLatLon = new ArrayList<>();
         Cursor cursor1 = db.query(TPlace.Place.TABLE_NAME, null,
                 null, null, null, null, null);
@@ -88,19 +88,17 @@ public class DBManager {
         return tempListLatLon;
     }
 
-    public List<ArrayList<Double>> getFromDBOneLatLon(int _id){
+    public List<Double> getFromDBOneLatLon(int _id){
 
-        List<ArrayList<Double>> tempListLatLon = new ArrayList<>();
+        List<Double> tempListLatLon = new ArrayList<>();
         cursor = db.query(TPlace.Place.TABLE_NAME, null,
-                TPlace.Place._ID=String.valueOf(_id), null, null, null, null);
+                String.format("_ID = %d",_id), null, null, null, null);
         if (tempListLatLon.size()>0)tempListLatLon.clear();
         while (cursor.moveToNext()){
-            ArrayList<Double> oneC = new ArrayList<>();
             Double latData = cursor.getDouble(cursor.getColumnIndexOrThrow(TPlace.Place.COLUMN_NAME_LATITUDE));
             Double lonData = cursor.getDouble(cursor.getColumnIndexOrThrow(TPlace.Place.COLUMN_NAME_LONGITUDE));
-            oneC.add(latData);
-            oneC.add(lonData);
-            tempListLatLon.add(oneC);
+            tempListLatLon.add(latData);
+            tempListLatLon.add(lonData);
         }
         cursor.close();
         return tempListLatLon;

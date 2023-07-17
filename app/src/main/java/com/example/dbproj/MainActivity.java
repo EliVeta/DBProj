@@ -88,11 +88,13 @@ public class MainActivity extends AppCompatActivity {
 
     private void pointMap() {
         dbManager.openDB();
-        List<ArrayList<Double>> latLon = dbManager.getFromDBNameLatLon();
+        List<ArrayList<Double>> latLon = dbManager.getFromDBLatLon();
         for (ArrayList oneLatLon : latLon) {
             ArrayList<Double> coord = oneLatLon;
             for (int i = 0; i < coord.size(); i++) {
-                Point mappoint = new Point(coord.get(i + 1), coord.get(i));
+                Point mappoint = new Point(coord.get(i + 1), coord.get(i)); //Поменять местами i+1 и i
+                                                                            //потому что я неправильно внесла в бд долготу и широту
+                                                                            //поэтому здесь наоборот вставила
                 mapview.getMap().getMapObjects().addPlacemark(mappoint);
                 break;
             }
@@ -162,7 +164,14 @@ public class MainActivity extends AppCompatActivity {
                 for(Map.Entry<String,String> elem : key_name_place.entrySet()){
                     if(elem.getValue()==item){
                         int _id = Integer.parseInt(elem.getKey());
-                        dbManager.getFromDBOneLatLon(_id);
+                        List<Double> latLon = dbManager.getFromDBOneLatLon(_id);
+                        Toast.makeText(getBaseContext(), dbManager.getFromDBOneLatLon(_id).toString(), Toast.LENGTH_SHORT).show();
+
+                        mapview.getMap().move(
+                                new CameraPosition(
+                                        new Point(latLon.get((1)), latLon.get(0)), 17.0f, 0.0f, 0.0f),
+                                new Animation(Animation.Type.SMOOTH, 0),
+                                null);
 
                         break;
                     }

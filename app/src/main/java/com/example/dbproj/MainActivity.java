@@ -30,7 +30,9 @@ import com.yandex.mapkit.mapview.MapView;
 
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -45,6 +47,9 @@ public class MainActivity extends AppCompatActivity {
     public LocationListener myLocationListener;
     public CoordinatorLayout rootCoordinatorLayout;
     public Point myLocation;
+
+    public HashMap<String,String> key_name_place;
+    public ArrayList<String> val_namePlace;
 
     @SuppressLint("ServiceCast")
     @Override
@@ -123,8 +128,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         dbManager.openDB();
+        key_name_place = new HashMap<>(dbManager.getFromDBNamePlace());
+        val_namePlace = new ArrayList<>(key_name_place.values());
         ArrayAdapter<String> namePlaceAdapter = new ArrayAdapter<>(
-                this, android.R.layout.simple_spinner_item, dbManager.getFromDBNamePlace()
+                this, android.R.layout.simple_spinner_item, val_namePlace
         );
 
         namePlaceAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -150,6 +157,16 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 Toast.makeText(getBaseContext(), adapterView.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
+                String item = (String) adapterView.getItemAtPosition(i);
+
+                for(Map.Entry<String,String> elem : key_name_place.entrySet()){
+                    if(elem.getValue()==item){
+                        int _id = Integer.parseInt(elem.getKey());
+                        dbManager.getFromDBOneLatLon(_id);
+
+                        break;
+                    }
+                }
 
             }
 
@@ -160,11 +177,7 @@ public class MainActivity extends AppCompatActivity {
         };
     }
 
-    //Удалить это надо и MapActivity тоже
-    public void ClickGoToMap(View view) {
-        Intent intent = new Intent(MainActivity.this, MapActivity.class);
-        startActivity(intent);
-    }
+
 
     /*public void ClickMyLocation(View view) {
         showCurrentLocation();

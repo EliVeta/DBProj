@@ -11,7 +11,7 @@ public final class TPlace {
 
     public  static class Place implements BaseColumns{
         public static final String TABLE_NAME = "Place";
-        public static final String _ID = "_id";
+        public static String _ID = "_id";
         public static final String COLUMN_NAME_STREET = "street";
         public static final String COLUMN_NAME_NUMBERHOUSE = "numberHouse";
         public static final String COLUMN_NAME_LATITUDE = "latitude";

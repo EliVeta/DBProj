@@ -44,10 +44,10 @@ public class AddPlaceActivity extends Activity {
     protected void onResume(){
         super.onResume();
         dbManager.openDB();
-        for (String namePlaces : dbManager.getFromDBNamePlace()){
+        /*for (String namePlaces : dbManager.getFromDBNamePlace()){
             tview.append("\n");
             tview.append(namePlaces);
-        }
+        }*/
     }
     public void ClickSavePlace(View view) {
         String street = etStreet.getText().toString();
@@ -58,10 +58,10 @@ public class AddPlaceActivity extends Activity {
 
         dbManager.insertToDB(street,numberHouse,lon,lat,namePlace);
 
-        for (String namePlaces : dbManager.getFromDBNamePlace()){
+        /*for (String namePlaces : dbManager.getFromDBNamePlace()){
             tview.append("\n");
             tview.append(namePlaces);
-        }
+        }*/
 
         //SQLiteDatabase database = dbHelper.getWritableDatabase();
         //ContentValues contentValues = new ContentValues();

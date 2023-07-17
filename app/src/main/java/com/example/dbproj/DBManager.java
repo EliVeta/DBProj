@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 public class DBManager {
@@ -33,14 +34,15 @@ public class DBManager {
         cv.put(TPlace.Place.COLUMN_NAME_NAMEPLACE, namePlace);
         db.insert(TPlace.Place.TABLE_NAME, null, cv);
     }
-    public List<String> getFromDBNamePlace(){
-        List<String> tempListPlace = new ArrayList<>();
+    public HashMap<String, String> getFromDBNamePlace(){
+        HashMap<String, String> tempListPlace = new HashMap<>();
         Cursor cursor = db.query(TPlace.Place.TABLE_NAME, null,
                 null, null, null, null, null);
 
         while (cursor.moveToNext()){
+            String _id = cursor.getString(cursor.getColumnIndexOrThrow(TPlace.Place._ID));
             String namePlaceData = cursor.getString(cursor.getColumnIndexOrThrow(TPlace.Place.COLUMN_NAME_NAMEPLACE));
-            tempListPlace.add(namePlaceData);
+            tempListPlace.put(_id,namePlaceData);
         }
         cursor.close();
         return tempListPlace;
@@ -85,6 +87,25 @@ public class DBManager {
         cursor.close();
         return tempListLatLon;
     }
+
+    public List<ArrayList<Double>> getFromDBOneLatLon(int _id){
+
+        List<ArrayList<Double>> tempListLatLon = new ArrayList<>();
+        cursor = db.query(TPlace.Place.TABLE_NAME, null,
+                TPlace.Place._ID=String.valueOf(_id), null, null, null, null);
+        if (tempListLatLon.size()>0)tempListLatLon.clear();
+        while (cursor.moveToNext()){
+            ArrayList<Double> oneC = new ArrayList<>();
+            Double latData = cursor.getDouble(cursor.getColumnIndexOrThrow(TPlace.Place.COLUMN_NAME_LATITUDE));
+            Double lonData = cursor.getDouble(cursor.getColumnIndexOrThrow(TPlace.Place.COLUMN_NAME_LONGITUDE));
+            oneC.add(latData);
+            oneC.add(lonData);
+            tempListLatLon.add(oneC);
+        }
+        cursor.close();
+        return tempListLatLon;
+    }
+
     public void closeDB(){
         dbHelper.close();
     }

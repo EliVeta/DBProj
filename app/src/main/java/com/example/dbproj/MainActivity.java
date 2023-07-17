@@ -46,9 +46,9 @@ public class MainActivity extends AppCompatActivity {
     public LocationManager locationManager;
     public LocationListener myLocationListener;
     public CoordinatorLayout rootCoordinatorLayout;
-    public Point myLocation;
+    public Point myPointLocation;
 
-    public HashMap<String,String> key_name_place;
+    public HashMap<String, String> key_name_place;
     public ArrayList<String> val_namePlace;
 
     @SuppressLint("ServiceCast")
@@ -64,6 +64,9 @@ public class MainActivity extends AppCompatActivity {
         dbHelper = new DBHelper(this);
         dbManager = new DBManager(this);
         mapview = findViewById(R.id.mapview);
+
+
+
         // locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         //rootCoordinatorLayout = (CoordinatorLayout) findViewById(R.id.root_coordinators);
        /* locationManager = (LocationManager) getSystemService(Context.LOCALE_SERVICE);
@@ -93,8 +96,8 @@ public class MainActivity extends AppCompatActivity {
             ArrayList<Double> coord = oneLatLon;
             for (int i = 0; i < coord.size(); i++) {
                 Point mappoint = new Point(coord.get(i + 1), coord.get(i)); //Поменять местами i+1 и i
-                                                                            //потому что я неправильно внесла в бд долготу и широту
-                                                                            //поэтому здесь наоборот вставила
+                //потому что я неправильно внесла в бд долготу и широту
+                //поэтому здесь наоборот вставила
                 mapview.getMap().getMapObjects().addPlacemark(mappoint);
                 break;
             }
@@ -154,6 +157,23 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void newCameraPosition(List<Double> latLon){
+        mapview.getMap().move(
+                new CameraPosition(
+                        new Point(latLon.get(1), latLon.get(0)), 17.0f, 0.0f, 0.0f),
+                new Animation(Animation.Type.SMOOTH, 0),
+                null);
+    }
+    public void newCameraPosition(Location latLon){
+        mapview.getMap().move(
+                new CameraPosition(
+                        new Point(latLon.getLatitude(), latLon.getLongitude()), 17.0f, 0.0f, 0.0f),
+                new Animation(Animation.Type.SMOOTH, 0),
+                null);
+        myPointLocation = new Point(latLon.getLatitude(), latLon.getLongitude());
+        mapview.getMap().getMapObjects().addPlacemark(myPointLocation);
+        //myPointLocation.setGeometry(new Point(latLon.getLatitude(), latLon.getLongitude()));
+    }
     AdapterView.OnItemSelectedListener onItemSelectedListener() {
         return new AdapterView.OnItemSelectedListener() {
             @Override
@@ -161,92 +181,27 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(getBaseContext(), adapterView.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
                 String item = (String) adapterView.getItemAtPosition(i);
 
-                for(Map.Entry<String,String> elem : key_name_place.entrySet()){
-                    if(elem.getValue()==item){
+                for (Map.Entry<String, String> elem : key_name_place.entrySet()) {
+                    if (elem.getValue() == item) {
                         int _id = Integer.parseInt(elem.getKey());
                         List<Double> latLon = dbManager.getFromDBOneLatLon(_id);
-                        Toast.makeText(getBaseContext(), dbManager.getFromDBOneLatLon(_id).toString(), Toast.LENGTH_SHORT).show();
-
-                        mapview.getMap().move(
-                                new CameraPosition(
-                                        new Point(latLon.get((1)), latLon.get(0)), 17.0f, 0.0f, 0.0f),
-                                new Animation(Animation.Type.SMOOTH, 0),
-                                null);
-
+                        Toast.makeText(getBaseContext(), latLon.toString(), Toast.LENGTH_SHORT).show();
+                        newCameraPosition(latLon);
                         break;
                     }
                 }
-
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
+            public void onNothingSelected(AdapterView<?> adapterView) {}
         };
     }
 
-
-
-    /*public void ClickMyLocation(View view) {
-        showCurrentLocation();
+    public void ClickMyLocation(View view) {
+        final Context mainContext = this;
+        Location loc = MyLocationListener.SetUpLocationListener(mainContext);
+        //Toast.makeText(getBaseContext(), loc.toString(), Toast.LENGTH_SHORT).show();
+        newCameraPosition(loc);
     }
-
-    protected void showCurrentLocation() {
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-        Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-
-        if (location != null) {
-            String message = String.format(
-                    "Current Location \n Longitude: %1$s \n Latitude: %2$s",
-                    location.getLongitude(), location.getLatitude()
-            );
-            Toast.makeText(MainActivity.this, message,
-                    Toast.LENGTH_LONG).show();
-        }
-    }
-
-
-    public class MyLocationListener implements LocationListener {
-
-        @Override
-        public void onLocationChanged(@NonNull Location location) {
-            String message = String.format(
-                    "New Location \n Longitude: %1$s \n Latitude: %2$s",
-                    location.getLongitude(), location.getLatitude()
-            );
-            Toast.makeText(MainActivity.this, message, Toast.LENGTH_LONG).show();
-        }
-
-        public void onStatusChanged(String s, int i, Bundle b) {
-            Toast.makeText(MainActivity.this, "Provider status changed",
-                    Toast.LENGTH_LONG).show();
-        }
-
-        public void onProviderDisabled(String s) {
-            Toast.makeText(MainActivity.this,
-                    "Provider disabled by the user. GPS turned off",
-                    Toast.LENGTH_LONG).show();
-        }
-
-        public void onProviderEnabled(String s) {
-            Toast.makeText(MainActivity.this,
-                    "Provider enabled by the user. GPS turned on",
-                    Toast.LENGTH_LONG).show();
-        }
-
-
-    }*/
-
-
 
 }
